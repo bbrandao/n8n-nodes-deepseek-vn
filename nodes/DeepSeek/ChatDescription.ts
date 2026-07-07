@@ -91,6 +91,27 @@ const completeOperations: INodeProperties[] = [
 		},
 		default: '',
 	},
+	{
+		displayName: 'Thinking Mode',
+		name: 'thinkingMode',
+		type: 'boolean',
+		default: false,
+		description:
+			'Whether to enable thinking mode. When enabled, the model outputs chain-of-thought reasoning before the final answer. <a href="https://api-docs.deepseek.com/guides/thinking_mode">Learn more</a>.',
+		displayOptions: {
+			show: {
+				resource: ['chat'],
+				operation: ['complete'],
+			},
+		},
+		routing: {
+			send: {
+				type: 'body',
+				property: 'thinking',
+				value: '={{ { type: $value ? "enabled" : "disabled" } }}',
+			},
+		},
+	},
 	// Prompt
 	{
 		displayName: 'Prompt',
@@ -295,11 +316,11 @@ const sharedOperations: INodeProperties[] = [
 				},
 			},
 			{
-				displayName: 'Response Format',
-				name: 'response_format',
-				type: 'json',
-				default: '',
-				description: 'An object specifying the format that the model must output',
+				displayName: 'JSON Output',
+				name: 'jsonOutput',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to force the model to output valid JSON. Requires the word "JSON" in the system or user prompt and an example of the desired JSON format. <a href="https://api-docs.deepseek.com/guides/json_mode">Learn more</a>.',
 				displayOptions: {
 					show: {
 						'/operation': ['complete'],
@@ -309,7 +330,8 @@ const sharedOperations: INodeProperties[] = [
 					send: {
 						type: 'body',
 						property: 'response_format',
-					}
+						value: '={{ $value ? { type: "json_object" } : undefined }}',
+					},
 				},
 			},
 			{

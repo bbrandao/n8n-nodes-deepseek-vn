@@ -23,6 +23,24 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 Use the package at [here](https://www.npmjs.com/package/n8n-nodes-deepseek).
 
+### Local Development
+
+To install this package locally for development:
+
+```bash
+npm install
+npm run build
+npm link
+```
+
+Then, in your n8n installation directory:
+
+```bash
+npm link n8n-nodes-deepseek
+```
+
+Restart n8n to load the community node.
+
 ## Credentials
 Add your Api Key and store securely
 
@@ -31,6 +49,11 @@ Add your Api Key and store securely
 ## Usage
 
 Add a DeepSeek node to your workflow, select the action you want to perform, and enter the required fields.
+
+### Chat Options
+
+- **Thinking Mode**: Enable or disable chain-of-thought reasoning before the final answer. When enabled, the API receives `thinking: { type: "enabled" }`. See the [Thinking Mode guide](https://api-docs.deepseek.com/guides/thinking_mode).
+- **JSON Output**: Enable structured JSON responses via `response_format: { type: "json_object" }`. Include the word `json` in your prompt and provide an example of the expected format. See the [JSON Output guide](https://api-docs.deepseek.com/guides/json_mode).
 
 ![Workflow](images/workflow.jpg)
 
