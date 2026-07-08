@@ -6,10 +6,10 @@ import type {
 	Icon,
 } from 'n8n-workflow';
 
-export class DeepSeekApi implements ICredentialType {
-	name = 'deepSeekApi';
+export class DeepSeekVnApi implements ICredentialType {
+	name = 'deepSeekVnApi';
 
-	displayName = 'DeepSeek API';
+	displayName = 'DeepSeek VN API';
 
 	icon: Icon = { light: 'file:DeepSeek.svg', dark: 'file:DeepSeek-dark.svg' };
 
@@ -23,14 +23,14 @@ export class DeepSeekApi implements ICredentialType {
 			typeOptions: { password: true },
 			required: true,
 			default: '',
-		}
+		},
 	];
 
 	authenticate: IAuthenticateGeneric = {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: '=Bearer {{$credentials.apiKey}}'
+				Authorization: '=Bearer {{$credentials.apiKey}}',
 			},
 		},
 	};

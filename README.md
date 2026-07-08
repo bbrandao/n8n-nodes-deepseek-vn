@@ -38,14 +38,16 @@ Follow the [n8n community nodes installation guide](https://docs.n8n.io/integrat
 ## Credentials
 
 1. Obtain an API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys)
-2. In n8n, create a new **DeepSeek API** credential
+2. In n8n, create a new **DeepSeek VN API** credential
 3. Paste your API key and save
 
 The node connects to `https://api.deepseek.com`.
 
 ## Usage
 
-Add a **DeepSeek** node to your workflow, select the resource and operation, then configure the parameters.
+Add a **DeepSeek VN** node to your workflow, select the resource and operation, then configure the parameters.
+
+> **Note:** This package uses the internal node name `deepSeekVn` so it can be installed alongside the original `n8n-nodes-deepseek` package without database conflicts. The node appears as **DeepSeek VN** in the editor.
 
 ### Chat Completion
 

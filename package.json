@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-deepseek-vn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DeepSeek AI community node for n8n with Thinking Mode and JSON Output support",
   "keywords": [
     "deepseek",
@@ -43,10 +43,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/DeepSeekApi.credentials.js"
+      "dist/credentials/DeepSeekVnApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/DeepSeek/DeepSeek.node.js"
+      "dist/nodes/DeepSeek/DeepSeekVn.node.js"
     ]
   },
   "devDependencies": {
