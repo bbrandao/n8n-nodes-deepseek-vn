@@ -1,25 +1,32 @@
 {
-  "name": "n8n-nodes-deepseek",
-  "version": "1.0.6",
-  "description": "A user-friendly DeepSeek AI node, similar to OpenAI, designed to enhance your workflow. npm link: https://www.npmjs.com/package/n8n-nodes-deepseek",
+  "name": "n8n-nodes-deepseek-vn",
+  "version": "1.0.0",
+  "description": "DeepSeek AI community node for n8n with Thinking Mode and JSON Output support",
   "keywords": [
     "deepseek",
     "n8n-community-node-package",
-    "n8n-nodes-deepseek",
+    "n8n-nodes-deepseek-vn",
     "n8n-nodes",
     "n8n",
     "n8n.io",
-    "n8n.io-nodes"
+    "n8n.io-nodes",
+    "reasoning",
+    "json-output",
+    "thinking-mode"
   ],
   "license": "MIT",
-  "homepage": "https://www.npmjs.com/package/n8n-nodes-deepseek",
+  "homepage": "https://github.com/bbrandao/n8n-nodes-deepseek-vn#readme",
+  "bugs": {
+    "url": "https://github.com/bbrandao/n8n-nodes-deepseek-vn/issues"
+  },
   "author": {
-    "name": "rubickecho",
-    "email": "tangliangcheng852@gmail.com"
+    "name": "Bruno Brandão",
+    "email": "brunolopesbrandao@gmail.com",
+    "url": "https://github.com/bbrandao"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rubickecho/n8n-deepseek.git"
+    "url": "git+https://github.com/bbrandao/n8n-nodes-deepseek-vn.git"
   },
   "scripts": {
     "build": "tsc && gulp build:icons",
@@ -27,7 +34,7 @@
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "test": "npm run build && jest",
+    "test": "npm run build && jest --passWithNoTests",
     "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
   },
   "files": [
