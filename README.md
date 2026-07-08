@@ -1,34 +1,97 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-deepseek-vn
 
-## ***I'm glad that the official n8n has supported the DeepSeek Chat Model at https://github.com/n8n-io/n8n/pull/12873. This community node is driven by interest, so I highly recommend everyone to install versions after `n8n@1.77.0` for a better experience of the magic that DeepSeek brings.***
+[![npm version](https://img.shields.io/npm/v/n8n-nodes-deepseek-vn.svg)](https://www.npmjs.com/package/n8n-nodes-deepseek-vn)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# n8n-nodes-deepseek
+A community node for [n8n](https://n8n.io/) that integrates [DeepSeek AI](https://www.deepseek.com/) into your workflows.
 
-This is an n8n community node. It lets you use DeepSeek AI in your n8n workflows.
+This project is a maintained fork of [rubickecho/n8n-deepseek](https://github.com/rubickecho/n8n-deepseek), extended with **Thinking Mode** and **JSON Output** controls. It is published under the MIT license.
 
-DeepSeek-V2 delivers impressive results on current major large model leaderboards.
+## Features
 
-DeepSeek WebSite: https://www.deepseek.com/en
-
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
-
-- [Installation](#installation)  
-- [Credentials](#credentials)
-- [Usage](#usage)
-- [Resources](#resources)  
+- **Chat Completion** — Create model responses for chat conversations via `POST /chat/completions`
+- **FIM Completion (Beta)** — Fill-In-the-Middle completions via `POST /beta/completions`
+- **Thinking Mode** — Toggle chain-of-thought reasoning before the final answer ([docs](https://api-docs.deepseek.com/guides/thinking_mode))
+- **JSON Output** — Force structured JSON responses with a simple boolean toggle ([docs](https://api-docs.deepseek.com/guides/json_mode))
+- **Simplify Output** — Return a simplified response instead of raw API data
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
+### Via n8n UI (recommended)
 
-Use the package at [here](https://www.npmjs.com/package/n8n-nodes-deepseek).
+1. Open your n8n instance
+2. Go to **Settings → Community Nodes**
+3. Click **Install**
+4. Enter the npm package name:
 
-### Local Development
+   ```
+   n8n-nodes-deepseek-vn
+   ```
 
-To install this package locally for development:
+5. Accept the risk acknowledgment and click **Install**
+6. Restart n8n if prompted
+
+### Via npm (self-hosted)
+
+Follow the [n8n community nodes installation guide](https://docs.n8n.io/integrations/community-nodes/installation/).
+
+## Credentials
+
+1. Obtain an API key from the [DeepSeek Platform](https://platform.deepseek.com/api_keys)
+2. In n8n, create a new **DeepSeek API** credential
+3. Paste your API key and save
+
+The node connects to `https://api.deepseek.com`.
+
+## Usage
+
+Add a **DeepSeek** node to your workflow, select the resource and operation, then configure the parameters.
+
+### Chat Completion
+
+| Parameter | Description |
+|---|---|
+| **Model** | DeepSeek model to use (loaded dynamically from the API) |
+| **Thinking Mode** | When enabled, sends `thinking: { type: "enabled" }` to activate chain-of-thought reasoning |
+| **Prompt** | System, user, and assistant messages |
+| **Simplify** | Return simplified output instead of raw API response |
+| **Options** | Temperature, max tokens, penalties, JSON Output, and more |
+
+### JSON Output
+
+When enabling **JSON Output** in Options:
+
+1. The API receives `response_format: { type: "json_object" }`
+2. Your system or user prompt **must** include the word `JSON`
+3. Provide an example of the expected JSON format in the prompt
+4. Set a reasonable **Maximum Number of Tokens** to avoid truncated JSON
+
+Example system prompt:
+
+```
+Parse the input and return JSON with "question" and "answer" fields.
+
+EXAMPLE JSON OUTPUT:
+{
+  "question": "What is the tallest mountain?",
+  "answer": "Mount Everest"
+}
+```
+
+### Thinking Mode
+
+When **Thinking Mode** is enabled:
+
+- The model outputs `reasoning_content` (chain-of-thought) before the final `content`
+- Sampling parameters (`temperature`, `top_p`, penalties) have no effect in thinking mode
+- See the [Thinking Mode guide](https://api-docs.deepseek.com/guides/thinking_mode) for multi-turn and tool-call behavior
+
+## Local Development
 
 ```bash
-npm install
+git clone https://github.com/bbrandao/n8n-nodes-deepseek-vn.git
+cd n8n-nodes-deepseek-vn
+npm ci
 npm run build
 npm link
 ```
@@ -36,139 +99,39 @@ npm link
 Then, in your n8n installation directory:
 
 ```bash
-npm link n8n-nodes-deepseek
+npm link n8n-nodes-deepseek-vn
 ```
 
-Restart n8n to load the community node.
+Restart n8n to load the node.
 
-## Credentials
-Add your Api Key and store securely
+### Validation
 
-![Add Credentials](images/credentials.jpg)
-
-## Usage
-
-Add a DeepSeek node to your workflow, select the action you want to perform, and enter the required fields.
-
-### Chat Options
-
-- **Thinking Mode**: Enable or disable chain-of-thought reasoning before the final answer. When enabled, the API receives `thinking: { type: "enabled" }`. See the [Thinking Mode guide](https://api-docs.deepseek.com/guides/thinking_mode).
-- **JSON Output**: Enable structured JSON responses via `response_format: { type: "json_object" }`. Include the word `json` in your prompt and provide an example of the expected format. See the [JSON Output guide](https://api-docs.deepseek.com/guides/json_mode).
-
-![Workflow](images/workflow.jpg)
-
-Run the workflow, and the result will be displayed in the Run Result node.
-
-![Run Result](images/run-result.jpg)
-
-### A Simple Demo
-
-```json
-{
-  "meta": {
-    "instanceId": "8419fa436e34f85077f6eb7f63a9c97687d9df6ed55cfc53d58b3b86ab6d8e61"
-  },
-  "nodes": [
-    {
-      "parameters": {},
-      "id": "a8c5f656-680b-4e43-b626-d3c85b1e21a1",
-      "name": "When clicking ‘Test workflow’",
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        920,
-        480
-      ]
-    },
-    {
-      "parameters": {
-        "model": "deepseek-chat",
-        "prompt": {
-          "messages": [
-            {
-              "role": "system",
-              "content": "I want you to act as a etymologist. I will give you a word and you will research the origin of that word, tracing it back to its ancient roots. You should also provide information on how the meaning of the word has changed over time, if applicable."
-            },
-            {
-              "content": "={{ $json.prompt }}"
-            }
-          ]
-        },
-        "options": {},
-        "requestOptions": {}
-      },
-      "id": "4841b428-7848-42d1-a0c6-f28c01a07010",
-      "name": "DeepSeek",
-      "type": "n8n-nodes-deepseek.deepSeek",
-      "typeVersion": 1,
-      "position": [
-        1380,
-        480
-      ],
-      "credentials": {
-        "deepSeekApi": {
-          "id": "WWBInhkKqwf808n4",
-          "name": "DeepSeek account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1b94a0dc-9b9b-4302-a1fd-2ac41b876740",
-              "name": "prompt",
-              "value": "My word is \"pizza\"",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "6e6054b0-bcb4-4fe3-83be-01cd7da39d93",
-      "name": "Edit Fields",
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1160,
-        480
-      ]
-    }
-  ],
-  "connections": {
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "DeepSeek",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "pinData": {}
-}
+```bash
+npm run build   # TypeScript compile + copy icons
+npm run lint    # ESLint checks
 ```
 
-## Resources
+## Contributing
 
-- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and submitting pull requests.
 
+## Security
+
+To report a vulnerability, see [SECURITY.md](SECURITY.md). Please do **not** open a public issue for security reports.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+MIT — see [LICENSE.md](LICENSE.md).
+
+This project is derived from [rubickecho/n8n-deepseek](https://github.com/rubickecho/n8n-deepseek). The original copyright notice is preserved in the license file.
+
+## Resources
+
+- [DeepSeek API Documentation](https://api-docs.deepseek.com/)
+- [n8n Community Nodes Documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [Original project](https://github.com/rubickecho/n8n-deepseek)
+- [npm package](https://www.npmjs.com/package/n8n-nodes-deepseek-vn)
