@@ -2,24 +2,23 @@ import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 import { chatFields, chatOperations } from './ChatDescription';
 import { FIMFields, fimOperations } from './FIMDescription';
 
-export class DeepSeek implements INodeType {
+export class DeepSeekVn implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'DeepSeek',
-		name: 'deepSeek',
-		// hidden: true,
+		displayName: 'DeepSeek VN',
+		name: 'deepSeekVn',
 		icon: { light: 'file:DeepSeek.svg', dark: 'file:DeepSeek-dark.svg' },
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Consume DeepSeek AI',
 		defaults: {
-			name: 'DeepSeek',
+			name: 'DeepSeek VN',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'deepSeekApi',
+				name: 'deepSeekVnApi',
 				required: true,
 			},
 		],
